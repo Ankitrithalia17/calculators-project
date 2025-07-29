@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mass-Length Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Mass-Length Calculator</h2>
+
+    <label for="mass">Mass (kg):</label>
+    <input type="number" id="mass" placeholder="Enter mass in kg">
+
+    <label for="length">Length (m):</label>
+    <input type="number" id="length" placeholder="Enter length in meters">
+
+    <label for="density">Density (kg/m³):</label>
+    <input type="number" id="density" placeholder="Enter density in kg/m³">
+
+    <label for="width">Width (m):</label>
+    <input type="number" id="width" placeholder="Enter width in meters">
+
+    <label for="height">Height (m):</label>
+    <input type="number" id="height" placeholder="Enter height in meters">
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculate() {
+      const mass = parseFloat(document.getElementById("mass").value);
+      const length = parseFloat(document.getElementById("length").value);
+      const density = parseFloat(document.getElementById("density").value);
+      const width = parseFloat(document.getElementById("width").value);
+      const height = parseFloat(document.getElementById("height").value);
+
+      let resultText = "";
+
+      if (isNaN(mass) && !isNaN(length) && !isNaN(density) && !isNaN(width) && !isNaN(height)) {
+        // Calculate Mass = Density * Volume (Volume = Length * Width * Height)
+        const volume = length * width * height;
+        const calculatedMass = density * volume;
+        resultText = `Mass (kg) = Density * Volume = ${calculatedMass.toFixed(2)} kg`;
+        document.getElementById("mass").value = calculatedMass.toFixed(2);
+      } else if (!isNaN(mass) && isNaN(length) && !isNaN(density) && !isNaN(width) && !isNaN(height)) {
+        // Calculate Length = Mass / (Density * Width * Height)
+        const calculatedLength = mass / (density * width * height);
+        resultText = `Length (m) = Mass / (Density * Width * Height) = ${calculatedLength.toFixed(2)} m`;
+        document.getElementById("length").value = calculatedLength.toFixed(2);
+      } else {
+        resultText = "Please enter values for mass, length, density, width, and height to calculate.";
+      }
+
+      document.getElementById("result").innerText = resultText;
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Power Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Power Calculator</h2>
+
+    <label for="formula">Select Formula:</label>
+    <select id="formula">
+      <option value="VxI">P = V × I</option>
+      <option value="V2R">P = V² / R</option>
+      <option value="I2R">P = I² × R</option>
+    </select>
+
+    <label for="voltage">Voltage (V):</label>
+    <input type="number" id="voltage" placeholder="Enter voltage in volts (V)" step="0.1">
+
+    <label for="current">Current (I):</label>
+    <input type="number" id="current" placeholder="Enter current in amperes (A)" step="0.1">
+
+    <label for="resistance">Resistance (R):</label>
+    <input type="number" id="resistance" placeholder="Enter resistance in ohms (Ω)" step="0.1">
+
+    <button onclick="calculatePower()">Calculate Power</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculatePower() {
+      const voltage = parseFloat(document.getElementById("voltage").value);
+      const current = parseFloat(document.getElementById("current").value);
+      const resistance = parseFloat(document.getElementById("resistance").value);
+      const formula = document.getElementById("formula").value;
+
+      let resultText = "";
+
+      // Validate inputs based on selected formula
+      if (formula === "VxI") {
+        // P = V × I
+        if (isNaN(voltage) || isNaN(current)) {
+          resultText = "Please enter valid voltage and current values!";
+        } else {
+          const power = voltage * current;
+          resultText = `Power (P) = ${power.toFixed(2)} W (using P = V × I)`;
+        }
+      } else if (formula === "V2R") {
+        // P = V² / R
+        if (isNaN(voltage) || isNaN(resistance)) {
+          resultText = "Please enter valid voltage and resistance values!";
+        } else {
+          const power = Math.pow(voltage, 2) / resistance;
+          resultText = `Power (P) = ${power.toFixed(2)} W (using P = V² / R)`;
+        }
+      } else if (formula === "I2R") {
+        // P = I² × R
+        if (isNaN(current) || isNaN(resistance)) {
+          resultText = "Please enter valid current and resistance values!";
+        } else {
+          const power = Math.pow(current, 2) * resistance;
+          resultText = `Power (P) = ${power.toFixed(2)} W (using P = I² × R)`;
+        }
+      }
+
+      // Display result
+      document.getElementById("result").innerHTML = resultText;
+    }
+  </script>
+
+</body>
+</html>

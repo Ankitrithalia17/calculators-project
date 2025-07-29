@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perimeter Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 320px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="number"], select {
+            padding: 8px;
+            width: 100%;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        #status {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Perimeter Calculator</h1>
+        
+        <!-- Shape Selection -->
+        <div class="form-group">
+            <label for="shape">Select Shape:</label>
+            <select id="shape">
+                <option value="rectangle">Rectangle</option>
+                <option value="square">Square</option>
+                <option value="circle">Circle</option>
+                <option value="triangle">Triangle</option>
+            </select>
+        </div>
+
+        <!-- Rectangle Inputs -->
+        <div class="form-group" id="rectangleInputs">
+            <label for="length">Length:</label>
+            <input type="number" id="length" placeholder="Enter length">
+            <label for="width">Width:</label>
+            <input type="number" id="width" placeholder="Enter width">
+        </div>
+
+        <!-- Square Inputs -->
+        <div class="form-group" id="squareInputs" style="display: none;">
+            <label for="side">Side:</label>
+            <input type="number" id="side" placeholder="Enter side length">
+        </div>
+
+        <!-- Circle Inputs -->
+        <div class="form-group" id="circleInputs" style="display: none;">
+            <label for="radius">Radius:</label>
+            <input type="number" id="radius" placeholder="Enter radius">
+        </div>
+
+        <!-- Triangle Inputs -->
+        <div class="form-group" id="triangleInputs" style="display: none;">
+            <label for="side1">Side 1:</label>
+            <input type="number" id="side1" placeholder="Enter first side">
+            <label for="side2">Side 2:</label>
+            <input type="number" id="side2" placeholder="Enter second side">
+            <label for="side3">Side 3:</label>
+            <input type="number" id="side3" placeholder="Enter third side">
+        </div>
+
+        <button onclick="calculatePerimeter()">Calculate Perimeter</button>
+
+        <div class="result">
+            <p id="perimeterResult">Perimeter: </p>
+        </div>
+    </div>
+
+    <script>
+        // Update the form fields based on the selected shape
+        document.getElementById("shape").addEventListener("change", function() {
+            let shape = this.value;
+
+            // Hide all inputs
+            document.getElementById("rectangleInputs").style.display = "none";
+            document.getElementById("squareInputs").style.display = "none";
+            document.getElementById("circleInputs").style.display = "none";
+            document.getElementById("triangleInputs").style.display = "none";
+
+            // Show inputs based on selected shape
+            if (shape === "rectangle") {
+                document.getElementById("rectangleInputs").style.display = "block";
+            } else if (shape === "square") {
+                document.getElementById("squareInputs").style.display = "block";
+            } else if (shape === "circle") {
+                document.getElementById("circleInputs").style.display = "block";
+            } else if (shape === "triangle") {
+                document.getElementById("triangleInputs").style.display = "block";
+            }
+        });
+
+        // Function to calculate the perimeter
+        function calculatePerimeter() {
+            let shape = document.getElementById("shape").value;
+            let perimeter = 0;
+
+            if (shape === "rectangle") {
+                let length = parseFloat(document.getElementById("length").value);
+                let width = parseFloat(document.getElementById("width").value);
+                if (length > 0 && width > 0) {
+                    perimeter = 2 * (length + width);
+                }
+            } else if (shape === "square") {
+                let side = parseFloat(document.getElementById("side").value);
+                if (side > 0) {
+                    perimeter = 4 * side;
+                }
+            } else if (shape === "circle") {
+                let radius = parseFloat(document.getElementById("radius").value);
+                if (radius > 0) {
+                    perimeter = 2 * Math.PI * radius;
+                }
+            } else if (shape === "triangle") {
+                let side1 = parseFloat(document.getElementById("side1").value);
+                let side2 = parseFloat(document.getElementById("side2").value);
+                let side3 = parseFloat(document.getElementById("side3").value);
+                if (side1 > 0 && side2 > 0 && side3 > 0) {
+                    perimeter = side1 + side2 + side3;
+                }
+            }
+
+            // Display the result
+            if (perimeter > 0) {
+                document.getElementById("perimeterResult").innerText = `Perimeter: ${perimeter.toFixed(2)} units`;
+            } else {
+                document.getElementById("perimeterResult").innerText = "Please enter valid dimensions.";
+            }
+        }
+    </script>
+
+</body>
+</html>

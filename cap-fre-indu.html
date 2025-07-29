@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capacitance, Frequency, Inductance Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="number"] {
+            padding: 8px;
+            width: 100%;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        #status {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Capacitance, Frequency & Inductance Calculator</h1>
+
+        <!-- Form Inputs for Capacitance, Frequency, Inductance -->
+        <div class="form-group">
+            <label for="inductance">Inductance (L in H):</label>
+            <input type="number" id="inductance" placeholder="Enter Inductance">
+        </div>
+
+        <div class="form-group">
+            <label for="capacitance">Capacitance (C in F):</label>
+            <input type="number" id="capacitance" placeholder="Enter Capacitance">
+        </div>
+
+        <div class="form-group">
+            <label for="frequency">Frequency (f in Hz):</label>
+            <input type="number" id="frequency" placeholder="Enter Frequency">
+        </div>
+
+        <button onclick="calculate()">Calculate</button>
+
+        <div class="result">
+            <p id="frequencyResult">Frequency (f): </p>
+            <p id="inductanceResult">Inductance (L): </p>
+            <p id="capacitanceResult">Capacitance (C): </p>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            let frequency = parseFloat(document.getElementById("frequency").value);
+            let inductance = parseFloat(document.getElementById("inductance").value);
+            let capacitance = parseFloat(document.getElementById("capacitance").value);
+
+            // If Frequency and Inductance are provided, calculate Capacitance
+            if (frequency && inductance) {
+                capacitance = 1 / (Math.pow(2 * Math.PI * frequency, 2) * inductance);
+            }
+            // If Frequency and Capacitance are provided, calculate Inductance
+            else if (frequency && capacitance) {
+                inductance = 1 / (Math.pow(2 * Math.PI * frequency, 2) * capacitance);
+            }
+            // If Inductance and Capacitance are provided, calculate Frequency
+            else if (inductance && capacitance) {
+                frequency = 1 / (2 * Math.PI * Math.sqrt(inductance * capacitance));
+            }
+
+            // Display the results
+            document.getElementById("frequencyResult").innerText = `Frequency (f): ${frequency.toFixed(2)} Hz`;
+            document.getElementById("inductanceResult").innerText = `Inductance (L): ${inductance.toFixed(2)} H`;
+            document.getElementById("capacitanceResult").innerText = `Capacitance (C): ${capacitance.toFixed(2)} F`;
+        }
+    </script>
+
+</body>
+</html>
