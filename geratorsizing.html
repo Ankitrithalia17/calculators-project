@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Sizing Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="number"], button {
+            padding: 10px;
+            width: 100%;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        .result p {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Generator Sizing Calculator</h1>
+
+        <!-- Form Inputs -->
+        <div class="form-group">
+            <label for="runningWattage">Running Wattage (W):</label>
+            <input type="number" id="runningWattage" placeholder="Enter running wattage of appliances">
+        </div>
+
+        <div class="form-group">
+            <label for="startingWattage">Starting Wattage (W):</label>
+            <input type="number" id="startingWattage" placeholder="Enter starting wattage of appliances">
+        </div>
+
+        <button onclick="calculateGeneratorSize()">Calculate Generator Size</button>
+
+        <!-- Result Display -->
+        <div class="result">
+            <p id="generatorSizeResult">Required Generator Size: </p>
+        </div>
+    </div>
+
+    <script>
+        function calculateGeneratorSize() {
+            // Get user inputs for running and starting wattage
+            let runningWattage = parseFloat(document.getElementById("runningWattage").value);
+            let startingWattage = parseFloat(document.getElementById("startingWattage").value);
+
+            // Validate inputs
+            if (isNaN(runningWattage) || isNaN(startingWattage) || runningWattage <= 0 || startingWattage <= 0) {
+                alert("Please enter valid wattage values.");
+                return;
+            }
+
+            // Calculate total wattage
+            let totalWattage = runningWattage + startingWattage;
+
+            // Calculate the generator size with a 20% safety margin
+            let generatorSize = totalWattage * 1.2;
+
+            // Display the result
+            document.getElementById("generatorSizeResult").innerText = `Required Generator Size: ${generatorSize.toFixed(2)} W`;
+        }
+    </script>
+
+</body>
+</html>

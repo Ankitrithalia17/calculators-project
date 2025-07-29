@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Battery Life Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Battery Life Calculator</h2>
+
+    <label for="capacity">Battery Capacity (mAh):</label>
+    <input type="number" id="capacity" placeholder="Enter battery capacity in mAh" step="1">
+
+    <label for="consumption">Power Consumption (mA):</label>
+    <input type="number" id="consumption" placeholder="Enter power consumption in mA" step="1">
+
+    <button onclick="calculateBatteryLife()">Calculate Battery Life</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculateBatteryLife() {
+      const capacity = parseFloat(document.getElementById("capacity").value);
+      const consumption = parseFloat(document.getElementById("consumption").value);
+
+      let resultText = "";
+
+      if (isNaN(capacity) || isNaN(consumption) || capacity <= 0 || consumption <= 0) {
+        resultText = "Please enter valid values for both capacity and consumption!";
+      } else {
+        // Calculate Battery Life: Battery Life = Capacity / Consumption
+        const batteryLife = capacity / consumption;
+
+        resultText = `
+          <b>Calculated Battery Life:</b><br>
+          Battery Life: ${batteryLife.toFixed(2)} hours
+        `;
+      }
+
+      // Display the result
+      document.getElementById("result").innerHTML = resultText;
+    }
+  </script>
+
+</body>
+</html>

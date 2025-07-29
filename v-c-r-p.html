@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ohm's Law Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="number"] {
+            padding: 8px;
+            width: 100%;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        #status {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Voltage, Current, Resistance & Power Calculator</h1>
+
+        <!-- Form Inputs for Voltage, Current, Resistance, and Power -->
+        <div class="form-group">
+            <label for="voltage">Voltage (V):</label>
+            <input type="number" id="voltage" placeholder="Enter Voltage">
+        </div>
+
+        <div class="form-group">
+            <label for="current">Current (I):</label>
+            <input type="number" id="current" placeholder="Enter Current">
+        </div>
+
+        <div class="form-group">
+            <label for="resistance">Resistance (R):</label>
+            <input type="number" id="resistance" placeholder="Enter Resistance">
+        </div>
+
+        <div class="form-group">
+            <label for="power">Power (P):</label>
+            <input type="number" id="power" placeholder="Enter Power">
+        </div>
+
+        <button onclick="calculate()">Calculate</button>
+
+        <div class="result">
+            <p id="voltageResult">Voltage (V): </p>
+            <p id="currentResult">Current (I): </p>
+            <p id="resistanceResult">Resistance (R): </p>
+            <p id="powerResult">Power (P): </p>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            // Get input values
+            let voltage = parseFloat(document.getElementById("voltage").value);
+            let current = parseFloat(document.getElementById("current").value);
+            let resistance = parseFloat(document.getElementById("resistance").value);
+            let power = parseFloat(document.getElementById("power").value);
+
+            // If both voltage and current are given, calculate resistance and power
+            if (voltage && current) {
+                resistance = voltage / current;  // Ohm's Law: R = V / I
+                power = voltage * current;      // Power Formula: P = V * I
+            }
+            // If both voltage and resistance are given, calculate current and power
+            else if (voltage && resistance) {
+                current = voltage / resistance; // Ohm's Law: I = V / R
+                power = voltage * current;      // Power Formula: P = V * I
+            }
+            // If both current and resistance are given, calculate voltage and power
+            else if (current && resistance) {
+                voltage = current * resistance; // Ohm's Law: V = I * R
+                power = voltage * current;      // Power Formula: P = V * I
+            }
+            // If both voltage and power are given, calculate current and resistance
+            else if (voltage && power) {
+                current = power / voltage;      // P = V * I → I = P / V
+                resistance = voltage / current; // Ohm's Law: R = V / I
+            }
+            // If both current and power are given, calculate voltage and resistance
+            else if (current && power) {
+                voltage = power / current;      // P = V * I → V = P / I
+                resistance = voltage / current; // Ohm's Law: R = V / I
+            }
+            // If both resistance and power are given, calculate voltage and current
+            else if (resistance && power) {
+                voltage = Math.sqrt(power * resistance);  // P = V^2 / R → V = sqrt(P * R)
+                current = power / voltage;               // P = V * I → I = P / V
+            }
+
+            // Display the results
+            document.getElementById("voltageResult").innerText = `Voltage (V): ${voltage.toFixed(2)} V`;
+            document.getElementById("currentResult").innerText = `Current (I): ${current.toFixed(2)} A`;
+            document.getElementById("resistanceResult").innerText = `Resistance (R): ${resistance.toFixed(2)} Ω`;
+            document.getElementById("powerResult").innerText = `Power (P): ${power.toFixed(2)} W`;
+        }
+    </script>
+
+</body>
+</html>

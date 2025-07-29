@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wire Parameter Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Wire Parameter Calculator</h2>
+
+    <label for="material">Wire Material (Resistivity, Ω⋅m):</label>
+    <input type="number" id="material" placeholder="Resistivity (e.g. 1.68 for Copper)" step="0.01">
+
+    <label for="length">Length of the Wire (m):</label>
+    <input type="number" id="length" placeholder="Enter length in meters" step="0.1">
+
+    <label for="area">Cross-sectional Area (mm²):</label>
+    <input type="number" id="area" placeholder="Enter area in mm²" step="0.1">
+
+    <label for="current">Current (A):</label>
+    <input type="number" id="current" placeholder="Enter current in Amps" step="0.1">
+
+    <button onclick="calculateWireParams()">Calculate</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculateWireParams() {
+      const resistivity = parseFloat(document.getElementById("material").value);
+      const length = parseFloat(document.getElementById("length").value);
+      const area = parseFloat(document.getElementById("area").value);
+      const current = parseFloat(document.getElementById("current").value);
+
+      let resultText = "";
+
+      // Check if all inputs are valid
+      if (isNaN(resistivity) || isNaN(length) || isNaN(area) || isNaN(current)) {
+        resultText = "Please enter valid values for all fields!";
+      } else {
+        // Convert area from mm² to m²
+        const areaInM2 = area * 1e-6; // 1 mm² = 1e-6 m²
+
+        // Calculate Resistance: R = ρ * (L / A)
+        const resistance = resistivity * (length / areaInM2);
+
+        // Calculate Voltage Drop: V = I * R
+        const voltageDrop = current * resistance;
+
+        // Calculate Current Carrying Capacity: I_max = Area * 5 (for copper wires, approx.)
+        const maxCurrent = area * 5;
+
+        resultText = `
+          <b>Calculated Parameters:</b><br>
+          Resistance (R): ${resistance.toFixed(4)} Ω<br>
+          Voltage Drop (V): ${voltageDrop.toFixed(4)} V<br>
+          Maximum Current Carrying Capacity: ${maxCurrent.toFixed(2)} A
+        `;
+      }
+
+      // Display the result
+      document.getElementById("result").innerHTML = resultText;
+    }
+  </script>
+
+</body>
+</html>
