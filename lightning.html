@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightning Protection Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e0f7fa;
+            border-radius: 5px;
+        }
+        #map {
+            height: 300px;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Lightning Protection Calculator</h1>
+        
+        <div class="form-group">
+            <label for="height">Building Height (m):</label>
+            <input type="number" id="height" placeholder="Enter building height" required>
+        </div>
+
+        <div class="form-group">
+            <label for="width">Building Width (m):</label>
+            <input type="number" id="width" placeholder="Enter building width" required>
+        </div>
+
+        <div class="form-group">
+            <label for="length">Building Length (m):</label>
+            <input type="number" id="length" placeholder="Enter building length" required>
+        </div>
+
+        <button onclick="calculateProtection()">Calculate</button>
+
+        <div class="result" id="result">
+            <!-- Results will be displayed here -->
+        </div>
+
+        <h2>Select Building Location</h2>
+        <div id="map"></div>
+
+        <div id="location-coordinates">
+            <p><strong>Latitude:</strong> <span id="latitude"></span></p>
+            <p><strong>Longitude:</strong> <span id="longitude"></span></p>
+        </div>
+    </div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
+    <script>
+        var map, marker;
+
+        // Initialize Google Map
+        function initMap() {
+            var center = { lat: 37.7749, lng: -122.4194 }; // Default location (San Francisco)
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: center,
+                zoom: 14,
+            });
+
+            marker = new google.maps.Marker({
+                position: center,
+                map: map,
+                draggable: true,
+            });
+
+            // Update coordinates when marker is moved
+            google.maps.event.addListener(marker, 'position_changed', function() {
+                var position = marker.getPosition();
+                document.getElementById("latitude").innerText = position.lat().toFixed(5);
+                document.getElementById("longitude").innerText = position.lng().toFixed(5);
+            });
+        }
+
+        // Calculate lightning protection based on height, width, and length
+        function calculateProtection() {
+            // Get input values
+            var height = parseFloat(document.getElementById('height').value);
+            var width = parseFloat(document.getElementById('width').value);
+            var length = parseFloat(document.getElementById('length').value);
+
+            // Calculate Area (Area = Width * Length)
+            var area = width * length;
+
+            // Calculate Protection Radius (R)
+            var protectionRadius = height * 1.5;
+
+            // Calculate Down Conductors
+            var downConductors = Math.ceil(height / 10);
+
+            // Calculate Lightning Rods
+            var lightningRods = Math.ceil(area / 20);
+
+            // Display results
+            var resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <p><strong>Protection Radius:</strong> ${protectionRadius.toFixed(2)} meters</p>
+                <p><strong>Number of Down Conductors:</strong> ${downConductors}</p>
+                <p><strong>Number of Lightning Rods:</strong> ${lightningRods}</p>
+            `;
+        }
+    </script>
+
+</body>
+</html>
