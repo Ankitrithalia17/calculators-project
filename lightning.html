@@ -118,11 +118,6 @@
             <input type="number" id="fence-height" readonly required>
         </div>
 
-        <div class="form-group">
-            <label for="equipment-height">Height of Equipment (m):</label>
-            <input type="number" id="equipment-height" readonly required>
-        </div>
-
         <!-- Calculate Button -->
         <button onclick="calculateProtection()">Calculate</button>
 
@@ -142,11 +137,11 @@
 
         // Case details and images
         const caseDetails = {
-            "standalone-mast": { mastHeight: 10, fenceHeight: 5, equipmentHeight: 7, image: "standalone-mast.jpg" },
-            "two-mast": { mastHeight: 12, fenceHeight: 6, equipmentHeight: 8, image: "two-mast.jpg" },
-            "mast-fence-gantry": { mastHeight: 15, fenceHeight: 8, equipmentHeight: 10, image: "mast-fence-gantry.jpg" },
-            "three-mast": { mastHeight: 18, fenceHeight: 9, equipmentHeight: 12, image: "three-mast.jpg" },
-            "four-mast": { mastHeight: 20, fenceHeight: 10, equipmentHeight: 15, image: "four-mast.jpg" }
+            "standalone-mast": { mastHeight: 10, fenceHeight: 5, image: "standalone-mast.jpg" },
+            "two-mast": { mastHeight: 12, fenceHeight: 6, image: "two-mast.jpg" },
+            "mast-fence-gantry": { mastHeight: 15, fenceHeight: 8, image: "mast-fence-gantry.jpg" },
+            "three-mast": { mastHeight: 18, fenceHeight: 9, image: "three-mast.jpg" },
+            "four-mast": { mastHeight: 20, fenceHeight: 10, image: "four-mast.jpg" }
         };
 
         // Function to update Sphere Radius and Interception Current based on selected protection level
@@ -168,7 +163,6 @@
                 const caseData = caseDetails[selectedCase];
                 document.getElementById('mast-height').value = caseData.mastHeight;
                 document.getElementById('fence-height').value = caseData.fenceHeight;
-                document.getElementById('equipment-height').value = caseData.equipmentHeight;
 
                 // Display the corresponding case image
                 const caseImage = `<img src="${caseData.image}" alt="${selectedCase}">`;
@@ -184,10 +178,9 @@
             const selectedCase = document.getElementById('case').value;
             const mastHeight = parseFloat(document.getElementById('mast-height').value);
             const fenceHeight = parseFloat(document.getElementById('fence-height').value);
-            const equipmentHeight = parseFloat(document.getElementById('equipment-height').value);
 
-            // Calculate Lmax (Maximum Distance Between Mast and Equipment)
-            const lmax = Math.sqrt(Math.pow(mastHeight - equipmentHeight, 2) + Math.pow(sphereRadius, 2));
+            // Calculate total distance between mast and fence
+            const distance = Math.sqrt(Math.pow(mastHeight - fenceHeight, 2) + Math.pow(sphereRadius, 2));
 
             // Display the results
             const resultDiv = document.getElementById('result');
@@ -198,11 +191,11 @@
                 <p><strong>Selected Case:</strong> ${selectedCase}</p>
                 <p><strong>Height of Lightning Mast:</strong> ${mastHeight} meters</p>
                 <p><strong>Height of Fence:</strong> ${fenceHeight} meters</p>
-                <p><strong>Height of Equipment:</strong> ${equipmentHeight} meters</p>
-                <p><strong>Lmax:</strong> ${lmax.toFixed(2)} meters</p>
+                <p><strong>Total Distance Between Mast and Fence:</strong> ${distance.toFixed(2)} meters</p>
             `;
         }
     </script>
+    
 
 </body>
 </html>
